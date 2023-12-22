@@ -1,0 +1,18 @@
+<h1>This is the team list!</h1>
+
+<form action="{% url 'trade_app:index' %}" method="post">
+    {% csrf_token %}
+
+    <fieldset>
+        <input type="text" name="sw" id="sw" placeholder="SW ID">
+        <label for="sw">SWID</label><br>
+        <input type="text" name="s2" id="s2" placeholder="S2 ID">
+        <label for="s2">S2 ID</label><br>
+        <input type="text" name="lid" id="lid" placeholder="League ID">
+        <label for="lid">League ID</label><br>
+        <input type="text" name="year" id="year" placeholder="Season">
+        <label for="year">Season Year</label><br>
+    </fieldset>
+
+    <input type="submit" value="Submit">
+</form>
