@@ -52,6 +52,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'fantasy_trade_machine.urls'
 
+TEST_RUNNER="redgreenunittest.django.runner.RedGreenDiscoverRunner"
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

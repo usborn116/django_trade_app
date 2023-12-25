@@ -5,8 +5,8 @@ class League(models.Model):
     name = models.CharField(max_length=50)
     year = models.IntegerField()
     id = models.IntegerField(primary_key=True)
-    s2: models.CharField(max_length=2000)
-    sw: models.CharField(max_length=2000)
+    s2 = models.CharField(max_length=2000, default=None)
+    sw = models.CharField(max_length=2000, default=None)
 
 
 class Team(models.Model):
