@@ -17,7 +17,7 @@ def index(request):
         league = AppLeague(id=lid, year=year, s2=s2, sw=sw, name=data['settings']['name'])
         league.save()
         for team in data.teams:
-            t = Team(league=league.id, id=team['id'], name=team['name'])
+            t = Team(league=league, id=team['id'], name=team['name'])
             t.save()
         return HttpResponseRedirect(reverse("trade_app:index"))
 
