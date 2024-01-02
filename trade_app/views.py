@@ -22,7 +22,8 @@ def index(request):
         return HttpResponseRedirect(reverse("trade_app:index"))
 
     else:
-        return render(request, "trade_app/index.html")
+        context = {'team_list' : Team.objects.all()}
+        return render(request, "trade_app/index.html", context)
 
 def roster(request, team_id):
     context = {"team_id": team_id}
