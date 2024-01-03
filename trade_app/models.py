@@ -43,11 +43,14 @@ class Team(models.Model):
 
     def create_players(self, players):
         for player in players:
-            new_player = self.player_set.create(name = player['name'], id = player['id'], league=self.league,
-                                   position=[player['position']])
-            new_player.create_player_statcard(player['stats']['2024_total']['avg'])
+            new_player = self.player_set.create(name = player.name, id = player.playerId, league=self.league,
+                                   position=player.position)
+            #print(player.stats['2024_total']['avg'])
+            try:
+                new_player.create_player_statcard(player.stats['2024_total']['avg'])
+            except KeyError:
+                None
             
-
     def create_team_statcard(self):
         new_stat = self.statcard_set.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
                                 fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
@@ -67,12 +70,9 @@ class Team(models.Model):
                 new_stat.fta += card.fta
                 new_stat.m3p += card.m3p
                 new_stat.a3p += card.a3p
+                new_stat.get_calculated_stats()
                 new_stat.save()
-
-        new_stat.get_averages(len(self.player_set.all()))
-
-
-
+                
 class Player(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
@@ -110,9 +110,9 @@ class StatCard(models.Model):
     ft_per = models.FloatField("FT%", blank=True, null=True,)
 
     def get_calculated_stats(self):
-        self.afg = (self.m3p*0.5+self.fgm) / self.fga
-        self.ato = self.ast / self.to
-        self.ft_per = self.ftm / self.fta
+        self.afg = (self.m3p*0.5+self.fgm) / (self.fga + 0.0000000001)
+        self.ato = self.ast / (self.to + 0.00000000001)
+        self.ft_per = self.ftm / (self.fta + 0.0000000001)
 
     def get_averages(self, divisor):
         self.pts = self.pts/divisor

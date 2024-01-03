@@ -1,1 +1,5 @@
-<h2>This is the roster of team {{team_id}}</h2>
+<h1>{{ team.name }} Roster</h1>
+
+{% for player in team.player_set.all %}
+<h2>{{player.name}}</h2>
+{% endfor %}

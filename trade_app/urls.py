@@ -6,7 +6,7 @@ app_name = "trade_app"
 
 urlpatterns = [
     path('', views.index, name="index"),
-    path("league/<int:league_id>", views.league, name="league"),
-    path("teams/<int:team_id>/roster", views.roster, name="roster"),
+    path("league/<int:pk>", views.LeagueView.as_view(), name="league"),
+    path("teams/<int:pk>", views.RosterView.as_view(), name="roster"),
     path("tradeform", views.trade_form, name="trade form"),
 ]

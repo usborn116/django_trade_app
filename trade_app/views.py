@@ -1,6 +1,9 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from django.views import generic
 from .helpers import league_setup
 import pandas as pd
 
@@ -18,19 +21,27 @@ def index(request):
                                                           name='League(%s, %s)' % (data.league_id, data.year,))
         league.save()
         league.create_teams(data.teams)
+        for team in data.teams:
+            t = Team.objects.get(pk=team.team_id)
+            t.create_players(team.roster)
         return HttpResponseRedirect(reverse("trade_app:league", args=(league.id,)))
 
     else:
         return render(request, "trade_app/index.html")
     
-def league(request, league_id):
-    league = get_object_or_404(AppLeague, pk=league_id)
-    context = {'teams' : league.team_set.all()}
-    return render(request, "trade_app/teams.html", context)
+class LeagueView(generic.DetailView):
+    model = AppLeague
+    template_name = 'trade_app/teams.html'
+    context_object_name = 'league'
 
+class RosterView(generic.DetailView):
+    model = Team
+    template_name = 'trade_app/roster.html'
+    context_object_name = 'team'
+'''
 def roster(request, team_id):
     context = {"team_id": team_id}
     return render(request, "trade_app/roster.html", context)
-
+''' 
 def trade_form(request):
     return render(request, "trade_app/trade_form.html")

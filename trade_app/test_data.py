@@ -1,5 +1,7 @@
-fake_player = {
-        'id' : 11,
+from box import Box
+
+fake_player = Box({
+        'playerId' : 11,
         'name' : 'Test Player Name',
         'position' : 'PG',
         'stats' : {
@@ -21,10 +23,10 @@ fake_player = {
                 }
             }
         }
-    }
+    })
 
-fake_player_2 = {
-        'id' : 12,
+fake_player_2 = Box({
+        'playerId' : 12,
         'name' : 'Test Player Name 2',
         'position' : 'C',
         'stats' : {
@@ -46,10 +48,10 @@ fake_player_2 = {
                 }
             }
         }
-    }
+    })
 
-fake_player_3 = {
-        'id' : 13,
+fake_player_3 = Box({
+        'playerId' : 13,
         'name' : 'Test Player Name 3',
         'position' : 'SG',
         'stats' : {
@@ -71,10 +73,10 @@ fake_player_3 = {
                 }
             }
         }
-    }
+    })
 
-fake_player_4 = {
-        'id' : 14,
+fake_player_4 = Box({
+        'playerId' : 14,
         'name' : 'Test Player Name 4',
         'position' : 'PF',
         'stats' : {
@@ -96,24 +98,25 @@ fake_player_4 = {
                 }
             }
         }
-    }
+    })
 
-fake_team = {
-    'id' : 10,
+fake_team = Box({
+    'team_id' : 100,
     'team_name' : 'Test Team',
     'roster' : [fake_player, fake_player_2]
-}
+})
 
-fake_team_2 = {
-    'id' : 9,
+fake_team_2 = Box({
+    'team_id' : 900,
     'team_name' : 'Test Team 2',
     'roster' : [fake_player_3, fake_player_4]
-}
+})
 
-fake_league = {
-    'id' : 10,
+fake_league = Box({
+    'league_id' : 10,
+    'year' : 2024,
     'settings' : {
         'name' : 'Test League'
     },
     'teams' : [fake_team, fake_team_2]
-}
+})

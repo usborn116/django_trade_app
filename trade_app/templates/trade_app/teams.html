@@ -1,8 +1,4 @@
-
-{% if teams %}
-
-{% for team in teams %}
-<div>{{team.name}}</div>
+<h1>Teams</h1>
+{% for team in league.team_set.all %}
+<h2>{{team.name}}</h2>
 {% endfor %}
-
-{%endif%}
