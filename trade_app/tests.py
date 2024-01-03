@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .models import League as AppLeague, Team, Player, StatCard
 from .test_data import fake_league, fake_team, fake_player, fake_team_2
+from .helpers import league_setup
 
 # Create your tests here.
 
@@ -17,6 +18,18 @@ class LeagueTestCase(TestCase):
         t.create_players([fake_player])
         p = t.player_set.first()
         self.assertEqual(p.name, 'Test Player Name')
+
+    def test_league_from_api(self):
+        sw = '{817F7C41-C9C5-43F7-BF7C-41C9C5F3F7EB}'
+        s2 = 'AEBZYDetmiWDzCsv91y%2B2bmAqE7WWTx2uT8JhJOE7pLZMjjQLcEt7DrPCRAqVyq0fiMyckLFBdJC1uID0R37CIaMmkghHDG62VAYnNAf7kVimrJfpf4KFUDm97dHy1NUa2TstxStusNhXVIbZbnVuuuKCRbdbQBDNyVRk9AW6Z0I%2FZIIwOFmStwPerqIiDejDTib94305LWGdRW7CLTcZwcmqtxGvOcq7hGOqYi26CdIPtzNSyEVfwlpdNg0dQuMyYzO%2Fw4w6h%2Fuh2OVah59Rw5DVajg%2FDvGZX9xNTiXTTdCow%3D%3D'
+        lid	= 780758162
+        year = 2024
+        data = league_setup(s2, sw, lid, year)
+        league = AppLeague(id=lid, year=year, s2=s2, sw=sw, name='League(%s, %s)' % (data.league_id, data.year,))
+        print(league.name)
+        print('AHA')
+
+        
 
 class TeamTestCase(TestCase):
     def setUp(self):

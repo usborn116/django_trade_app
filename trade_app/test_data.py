@@ -100,13 +100,13 @@ fake_player_4 = {
 
 fake_team = {
     'id' : 10,
-    'name' : 'Test Team',
+    'team_name' : 'Test Team',
     'roster' : [fake_player, fake_player_2]
 }
 
 fake_team_2 = {
     'id' : 9,
-    'name' : 'Test Team 2',
+    'team_name' : 'Test Team 2',
     'roster' : [fake_player_3, fake_player_4]
 }
 

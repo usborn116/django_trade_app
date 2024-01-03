@@ -33,7 +33,7 @@ class League(models.Model):
 
     def create_teams(self, teams):
         for team in teams:
-            self.team_set.create(name = team['name'], id = team['id'])
+            self.team_set.get_or_create(name = team.team_name, id = team.team_id)
 
 
 class Team(models.Model):

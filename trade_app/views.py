@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .helpers import league_setup
@@ -11,19 +11,22 @@ def index(request):
     if request.method == 'POST':
         sw = request.POST['sw']
         s2 = request.POST['s2']
-        lid = request.POST['lid']
-        year = request.POST['year']
+        lid = int(request.POST['lid'])
+        year = int(request.POST['year'])
         data = league_setup(s2, sw, lid, year)
-        league = AppLeague(id=lid, year=year, s2=s2, sw=sw, name=data['settings']['name'])
+        league, created = AppLeague.objects.get_or_create(id=lid, year=year, s2=s2, sw=sw, 
+                                                          name='League(%s, %s)' % (data.league_id, data.year,))
         league.save()
-        for team in data.teams:
-            t = Team(league=league, id=team['id'], name=team['name'])
-            t.save()
-        return HttpResponseRedirect(reverse("trade_app:index"))
+        league.create_teams(data.teams)
+        return HttpResponseRedirect(reverse("trade_app:league", args=(league.id,)))
 
     else:
-        context = {'team_list' : Team.objects.all()}
-        return render(request, "trade_app/index.html", context)
+        return render(request, "trade_app/index.html")
+    
+def league(request, league_id):
+    league = get_object_or_404(AppLeague, pk=league_id)
+    context = {'teams' : league.team_set.all()}
+    return render(request, "trade_app/teams.html", context)
 
 def roster(request, team_id):
     context = {"team_id": team_id}
