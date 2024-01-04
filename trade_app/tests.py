@@ -143,4 +143,7 @@ class StatCardTestCase(TestCase):
     def test_api_league_statcard_exists(self):
         league_sc = StatCard.objects.get(league=AppLeague.objects.get(pk=lid))
         self.assertIsNotNone(league_sc)
-        #print('Embiidlejuice', league_sc.pts)
+        print('Embiidlejuice', league_sc.pts)
+        print('Embiidlejuice', league_sc.blk)
+        print('Embiidlejuice', league_sc.stl)
+        print('Embiidlejuice', league_sc.ast)

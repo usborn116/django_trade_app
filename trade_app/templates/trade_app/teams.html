@@ -2,3 +2,5 @@
 {% for team in league.team_set.all %}
 <h2><a href="{% url 'trade_app:roster' team.id %}">{{team.name}}</a></h2>
 {% endfor %}
+
+{% include './stats.html' with stats=stats keys=keys model='League' %}

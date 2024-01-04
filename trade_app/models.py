@@ -9,31 +9,32 @@ class League(models.Model):
     sw = models.CharField(max_length=2000, default=None)
 
     def create_league_statcard(self):
-        new_stat = self.statcard_set.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
-                                fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
-        
-        for team in self.team_set.all():
-            for card in team.statcard_set.all():
-                new_stat.pts += card.pts
-                new_stat.blk += card.blk
-                new_stat.stl += card.stl
-                new_stat.ast += card.ast
-                new_stat.oreb += card.oreb
-                new_stat.dreb += card.dreb
-                new_stat.to += card.to
-                new_stat.fga += card.fga
-                new_stat.fgm += card.fgm
-                new_stat.ftm += card.ftm
-                new_stat.fta += card.fta
-                new_stat.m3p += card.m3p
-                new_stat.a3p += card.a3p
-                new_stat.save()
+        if not self.statcard_set.first():
+            new_stat = self.statcard_set.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
+                                    fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
+            
+            for team in self.team_set.all():
+                for card in team.statcard_set.all():
+                    new_stat.pts += card.pts
+                    new_stat.blk += card.blk
+                    new_stat.stl += card.stl
+                    new_stat.ast += card.ast
+                    new_stat.oreb += card.oreb
+                    new_stat.dreb += card.dreb
+                    new_stat.to += card.to
+                    new_stat.fga += card.fga
+                    new_stat.fgm += card.fgm
+                    new_stat.ftm += card.ftm
+                    new_stat.fta += card.fta
+                    new_stat.m3p += card.m3p
+                    new_stat.a3p += card.a3p
+                    new_stat.save()
 
-        new_stat.get_averages(len(self.team_set.all()))
+            new_stat.get_averages(len(self.team_set.all()))
 
     def create_teams(self, teams):
         for team in teams:
-            exist = Team.objects.filter(pk=team.team_id)
+            exist = self.team_set.filter(pk=team.team_id)
             if not exist:
                 self.team_set.get_or_create(id = team.team_id, name=team.team_name)
 
@@ -49,31 +50,33 @@ class Team(models.Model):
                                    position=player.position)
             #print(player.stats['2024_total']['avg'])
             try:
-                new_player.create_player_statcard(player.stats['2024_total']['avg'])
+                if not new_player.statcard_set.first():
+                    new_player.create_player_statcard(player.stats['2024_total']['avg'])
             except KeyError:
                 None
             
     def create_team_statcard(self):
-        new_stat = self.statcard_set.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
-                                fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
-        
-        for player in self.player_set.all():
-            for card in player.statcard_set.all():
-                new_stat.pts += card.pts
-                new_stat.blk += card.blk
-                new_stat.stl += card.stl
-                new_stat.ast += card.ast
-                new_stat.oreb += card.oreb
-                new_stat.dreb += card.dreb
-                new_stat.to += card.to
-                new_stat.fga += card.fga
-                new_stat.fgm += card.fgm
-                new_stat.ftm += card.ftm
-                new_stat.fta += card.fta
-                new_stat.m3p += card.m3p
-                new_stat.a3p += card.a3p
-                new_stat.get_calculated_stats()
-                new_stat.save()
+        if not self.statcard_set.first():
+            new_stat = self.statcard_set.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
+                                    fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
+            
+            for player in self.player_set.all():
+                for card in player.statcard_set.all():
+                    new_stat.pts += card.pts
+                    new_stat.blk += card.blk
+                    new_stat.stl += card.stl
+                    new_stat.ast += card.ast
+                    new_stat.oreb += card.oreb
+                    new_stat.dreb += card.dreb
+                    new_stat.to += card.to
+                    new_stat.fga += card.fga
+                    new_stat.fgm += card.fgm
+                    new_stat.ftm += card.ftm
+                    new_stat.fta += card.fta
+                    new_stat.m3p += card.m3p
+                    new_stat.a3p += card.a3p
+                    new_stat.get_calculated_stats()
+                    new_stat.save()
                 
 class Player(models.Model):
     league = models.ForeignKey(League, on_delete=models.CASCADE)
@@ -83,12 +86,13 @@ class Player(models.Model):
     position = models.CharField(max_length=10)
 
     def create_player_statcard(self, stats):
-        new_stat = self.statcard_set.create(pts=stats['PTS'], blk=stats['BLK'], stl=stats['STL'], 
-                                ast=stats['AST'], oreb=stats['OREB'], dreb=stats['DREB'], to=stats['TO'], 
-                                fga=stats['FGA'], fgm=stats['FGM'], ftm=stats['FTM'], fta=stats['FTA'], 
-                                m3p=stats['3PTM'], a3p=stats['3PTA'])
-        new_stat.get_calculated_stats()
-        new_stat.save()
+        if not self.statcard_set.first():
+            new_stat = self.statcard_set.create(pts=stats['PTS'], blk=stats['BLK'], stl=stats['STL'], 
+                                    ast=stats['AST'], oreb=stats['OREB'], dreb=stats['DREB'], to=stats['TO'], 
+                                    fga=stats['FGA'], fgm=stats['FGM'], ftm=stats['FTM'], fta=stats['FTA'], 
+                                    m3p=stats['3PTM'], a3p=stats['3PTA'])
+            new_stat.get_calculated_stats()
+            new_stat.save()
 
 class StatCard(models.Model):
     player = models.ForeignKey(Player, blank=True, null=True, on_delete=models.CASCADE)
