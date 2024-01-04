@@ -24,6 +24,8 @@ def index(request):
         for team in data.teams:
             t = Team.objects.get(pk=team.team_id)
             t.create_players(team.roster)
+            t.create_team_statcard()
+        league.create_league_statcard()
         return HttpResponseRedirect(reverse("trade_app:league", args=(league.id,)))
 
     else:

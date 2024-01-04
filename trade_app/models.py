@@ -33,7 +33,9 @@ class League(models.Model):
 
     def create_teams(self, teams):
         for team in teams:
-            self.team_set.get_or_create(name = team.team_name, id = team.team_id)
+            exist = Team.objects.filter(pk=team.team_id)
+            if not exist:
+                self.team_set.get_or_create(id = team.team_id, name=team.team_name)
 
 
 class Team(models.Model):
@@ -43,7 +45,7 @@ class Team(models.Model):
 
     def create_players(self, players):
         for player in players:
-            new_player = self.player_set.create(name = player.name, id = player.playerId, league=self.league,
+            new_player, _ = self.player_set.get_or_create(id = player.playerId, name = player.name, league=self.league,
                                    position=player.position)
             #print(player.stats['2024_total']['avg'])
             try:

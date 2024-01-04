@@ -14,3 +14,4 @@ Resources:
 - Fixing Module_not_found error: https://www.freecodecamp.org/news/module-not-found-error-in-python-solved/#:~:text=Here%20are%20a%20few%20reasons,numpy%20as%20numpys%20during%20import
 - Django Migrations: https://docs.djangoproject.com/en/5.0/topics/migrations/
 - Django get_or_create method: https://www.letscodemore.com/blog/django-get-or-create/#:~:text=django%20get_or_create()%20is%20a,it%20will%20create%20the%20object.
+- Django Queryset reference: https://docs.djangoproject.com/en/5.0/ref/models/querysets/#get-or-create

@@ -1,4 +1,4 @@
 <h1>Teams</h1>
 {% for team in league.team_set.all %}
-<h2>{{team.name}}</h2>
+<h2><a href="{% url 'trade_app:roster' team.id %}">{{team.name}}</a></h2>
 {% endfor %}
