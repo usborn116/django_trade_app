@@ -15,3 +15,8 @@ Resources:
 - Django Migrations: https://docs.djangoproject.com/en/5.0/topics/migrations/
 - Django get_or_create method: https://www.letscodemore.com/blog/django-get-or-create/#:~:text=django%20get_or_create()%20is%20a,it%20will%20create%20the%20object.
 - Django Queryset reference: https://docs.djangoproject.com/en/5.0/ref/models/querysets/#get-or-create
+- Partial templates: https://stackoverflow.com/questions/1070398/how-to-set-a-value-of-a-variable-inside-a-template-code
+- Clearing Django database: https://stackoverflow.com/questions/6485106/what-is-the-easiest-way-to-clear-a-database-from-the-cli-with-manage-py-in-djang
+- Registering custom template filters: https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable AND https://reintech.io/blog/writing-custom-template-tags-in-django
+- Django built in template tags: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#include
+- Get_context_data() method for class views: https://reintech.io/blog/working-with-class-based-views-in-django-tutorial
