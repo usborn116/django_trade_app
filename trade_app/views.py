@@ -17,6 +17,13 @@ def get_item(dictionary, key):
 def round_stat(num):
     return round(num, 2)
 
+@register.filter
+def stat_dict(stats):
+    if stats:
+        return stats.__dict__
+    else:
+        return None
+
 # Create your views here.
 def index(request):
     if request.method == 'POST':
@@ -56,10 +63,32 @@ class RosterView(generic.DetailView):
     model = Team
     template_name = 'trade_app/roster.html'
     context_object_name = 'team'
-'''
-def roster(request, team_id):
-    context = {"team_id": team_id}
-    return render(request, "trade_app/roster.html", context)
-''' 
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['stats'] = self.object.statcard_set.first().__dict__
+        context['keys'] = {'pts' : 'PTS', 'blk' : "BLK", "ast": 'AST', 'stl': 'STL', 
+                           'oreb' : 'OREB', 'dreb': 'DREB', 'ftm': 'FTM', 'm3p': '3PM',
+                            'afg' : 'AFG%', 'ato' : 'A/TO', 'ft_per' : 'FT%' }
+        return context
+    
+class PlayerView(generic.DetailView):
+    model = Player
+    template_name = 'trade_app/player.html'
+    context_object_name = 'player'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.object.statcard_set.first():
+            context['stats'] = self.object.statcard_set.first().__dict__
+        else:
+            context['stats'] = None
+
+        context['keys'] = {'pts' : 'PTS', 'blk' : "BLK", "ast": 'AST', 'stl': 'STL', 
+                           'oreb' : 'OREB', 'dreb': 'DREB', 'ftm': 'FTM', 'm3p': '3PM',
+                            'afg' : 'AFG%', 'ato' : 'A/TO', 'ft_per' : 'FT%' }
+        return context
+
+
 def trade_form(request):
     return render(request, "trade_app/trade_form.html")

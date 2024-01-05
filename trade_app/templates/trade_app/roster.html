@@ -1,5 +1,8 @@
 <h1>{{ team.name }} Roster</h1>
 
 {% for player in team.player_set.all %}
-<h2>{{player.name}}</h2>
+<h2><a href="{% url 'trade_app:player' player.id %}">{{player.name}}</a></h2>
+{% include './stats.html' with stats=player.statcard_set.first|stat_dict keys=keys model='' %}
 {% endfor %}
+
+{% include './stats.html' with stats=stats keys=keys model=team.name %}

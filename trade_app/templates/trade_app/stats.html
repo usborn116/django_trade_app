@@ -1,5 +1,6 @@
 <div class="stats">
 <h2>{{model}} Stats</h2>
+{% if stats %}
 {% for key, value in stats.items %}
 
 {% if keys|get_item:key %}
@@ -7,3 +8,9 @@
 {% endif %}
 {% endfor %}
 </div>
+
+{% else %}
+
+<div>No Stats This Year</div>
+
+{% endif %}
