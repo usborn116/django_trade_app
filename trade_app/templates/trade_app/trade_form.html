@@ -1,1 +1,22 @@
 <h2>This is the trade form</h2>
+
+<form action="{% url 'trade_app:trade_form' id %}" method="post">
+    {% csrf_token %}
+
+    <fieldset>
+        <label for="self_team">Your Team</label>
+        <select name="self_team" id="self_team">
+            {% for team in teams %}
+            <option value={{team.id}}>{{team.name}}</option>
+            {% endfor %}
+        </select><br>
+        <label for="other_team">Team Trading With</label>
+        <select name="other_team" id="other_team"><br>
+            {% for team in teams %}
+            <option value=team.id>{{team.name}}</option>
+            {% endfor %}
+        </select>
+    </fieldset>
+
+    <input type="submit" value="Submit">
+</form>

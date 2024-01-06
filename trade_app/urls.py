@@ -9,5 +9,5 @@ urlpatterns = [
     path("league/<int:pk>", views.LeagueView.as_view(), name="league"),
     path("teams/<int:pk>", views.RosterView.as_view(), name="roster"),
     path("player/<int:pk>", views.PlayerView.as_view(), name="player"),
-    path("tradeform", views.trade_form, name="trade form"),
+    path("trade_form/<int:pk>/", views.trade_form, name="trade_form"),
 ]

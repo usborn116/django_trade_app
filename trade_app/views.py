@@ -90,5 +90,19 @@ class PlayerView(generic.DetailView):
         return context
 
 
-def trade_form(request):
-    return render(request, "trade_app/trade_form.html")
+def trade_form(request, pk):
+    if request.method == 'POST':
+        t1 = request.POST['self_team']
+        t2 = request.POST['other_team']
+        return HttpResponseRedirect(reverse("trade_app:player_trade_form.html", args=(t1, t2)))
+    
+    else:
+        league = get_object_or_404(AppLeague, pk=pk)
+        context = { 'teams' : league.team_set.all(), 'id' : league.id}
+        return render(request, "trade_app/trade_form.html", context)
+
+def player_trade_form(request, t1, t2):
+    team1 = get_object_or_404(Team, pk=t1)
+    team2 = get_object_or_404(Team, pk=t2)
+    context = { 'roster1' : team1.player_set.all(), 'roster2' : team2.player_set.all()}
+    return render(request, "trade_app/trade_form.html", context)

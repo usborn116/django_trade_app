@@ -3,4 +3,6 @@
 <h2><a href="{% url 'trade_app:roster' team.id %}">{{team.name}}</a></h2>
 {% endfor %}
 
+<a href="{% url 'trade_app:trade_form' league.id %}">TRADE</a>
+
 {% include './stats.html' with stats=stats keys=keys model='League' %}
