@@ -20,3 +20,5 @@ Resources:
 - Registering custom template filters: https://stackoverflow.com/questions/8000022/django-template-how-to-look-up-a-dictionary-value-with-a-variable AND https://reintech.io/blog/writing-custom-template-tags-in-django
 - Django built in template tags: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/#include
 - Get_context_data() method for class views: https://reintech.io/blog/working-with-class-based-views-in-django-tutorial
+- Template Tags: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/
+- Django Models Reference: https://docs.djangoproject.com/en/5.0/ref/models/instances/
