@@ -1,1 +1,28 @@
-<h2>This is the trade form</h2>
+<form action="{% url 'trade_app:player_trade_form' team1.id team2.id%}" method="post">
+    {% csrf_token %}
+
+    <fieldset>
+        <div>Players You're Trading</div><br>
+        {% for player in team1.player_set.all %}
+        <input type="checkbox" value={{player.id}} name="trading{{player.id}}" id={{player.id}}>
+        <label for={{player.id}}>{{player.name}}</label><br>
+        {% endfor %}
+        <br>
+        <div>Players You're Getting</div><br>
+        {% for player in team2.player_set.all %}
+        <input type="checkbox" value={{player.id}} name="getting{{player.id}}" id={{player.id}}>
+        <label for={{player.id}}>{{player.name}}</label><br>
+        {% endfor %}
+        
+    </fieldset>
+
+    <input type="submit" value="Submit">
+</form>
+
+{% include './roster.html' with team=team1 keys=keys %}
+
+{% include './roster.html' with team=team2 keys=keys no_team=True%}
+
+<!--
+    <textarea name="trade_away" id="trade_away" cols="50" rows= "5" placeholder="Player Trading"></textarea><br>
+-->

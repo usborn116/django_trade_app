@@ -13,7 +13,7 @@
         <label for="other_team">Team Trading With</label>
         <select name="other_team" id="other_team"><br>
             {% for team in teams %}
-            <option value=team.id>{{team.name}}</option>
+            <option value={{team.id}}>{{team.name}}</option>
             {% endfor %}
         </select>
     </fieldset>

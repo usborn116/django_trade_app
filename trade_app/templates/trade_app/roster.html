@@ -5,4 +5,6 @@
 {% include './stats.html' with stats=player.statcard_set.first|stat_dict keys=keys model='' %}
 {% endfor %}
 
+{% if not no_team %}
 {% include './stats.html' with stats=stats keys=keys model=team.name %}
+{% endif %}

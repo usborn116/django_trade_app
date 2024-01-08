@@ -23,6 +23,10 @@ def stat_dict(stats):
         return stats.__dict__
     else:
         return None
+    
+KEYS = {'pts' : 'PTS', 'blk' : "BLK", "ast": 'AST', 'stl': 'STL', 
+                           'oreb' : 'OREB', 'dreb': 'DREB', 'ftm': 'FTM', 'm3p': '3PM',
+                            'afg' : 'AFG%', 'ato' : 'A/TO', 'ft_per' : 'FT%' }
 
 # Create your views here.
 def index(request):
@@ -54,9 +58,7 @@ class LeagueView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stats'] = self.object.statcard_set.first().__dict__
-        context['keys'] = {'pts' : 'PTS', 'blk' : "BLK", "ast": 'AST', 'stl': 'STL', 
-                           'oreb' : 'OREB', 'dreb': 'DREB', 'ftm': 'FTM', 'm3p': '3PM',
-                            'afg' : 'AFG%', 'ato' : 'A/TO', 'ft_per' : 'FT%' }
+        context['keys'] = KEYS
         return context
 
 class RosterView(generic.DetailView):
@@ -67,9 +69,7 @@ class RosterView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['stats'] = self.object.statcard_set.first().__dict__
-        context['keys'] = {'pts' : 'PTS', 'blk' : "BLK", "ast": 'AST', 'stl': 'STL', 
-                           'oreb' : 'OREB', 'dreb': 'DREB', 'ftm': 'FTM', 'm3p': '3PM',
-                            'afg' : 'AFG%', 'ato' : 'A/TO', 'ft_per' : 'FT%' }
+        context['keys'] = KEYS
         return context
     
 class PlayerView(generic.DetailView):
@@ -84,17 +84,15 @@ class PlayerView(generic.DetailView):
         else:
             context['stats'] = None
 
-        context['keys'] = {'pts' : 'PTS', 'blk' : "BLK", "ast": 'AST', 'stl': 'STL', 
-                           'oreb' : 'OREB', 'dreb': 'DREB', 'ftm': 'FTM', 'm3p': '3PM',
-                            'afg' : 'AFG%', 'ato' : 'A/TO', 'ft_per' : 'FT%' }
+        context['keys'] = KEYS
         return context
 
 
 def trade_form(request, pk):
     if request.method == 'POST':
-        t1 = request.POST['self_team']
-        t2 = request.POST['other_team']
-        return HttpResponseRedirect(reverse("trade_app:player_trade_form.html", args=(t1, t2)))
+        t1 = int(request.POST['self_team'])
+        t2 = int(request.POST['other_team'])
+        return HttpResponseRedirect(reverse("trade_app:player_trade_form", args=(t1, t2,)))
     
     else:
         league = get_object_or_404(AppLeague, pk=pk)
@@ -102,7 +100,24 @@ def trade_form(request, pk):
         return render(request, "trade_app/trade_form.html", context)
 
 def player_trade_form(request, t1, t2):
-    team1 = get_object_or_404(Team, pk=t1)
-    team2 = get_object_or_404(Team, pk=t2)
-    context = { 'roster1' : team1.player_set.all(), 'roster2' : team2.player_set.all()}
-    return render(request, "trade_app/trade_form.html", context)
+    if request.method == 'POST':
+        give = []
+        get = []
+        for key, value in request.POST.items():
+            if key.startswith('trading'):
+                give.append(int(value))
+            elif key.startswith('getting'):
+                get.append(int(value))
+
+        return HttpResponseRedirect(reverse("trade_app:trade_results", args=(give, get,)))
+    
+    else:
+        team1 = get_object_or_404(Team, pk=t1)
+        team2 = get_object_or_404(Team, pk=t2)
+        context = { 'team1' : team1, 'team2' : team2, 'keys': KEYS}
+        return render(request, "trade_app/player_trade_form.html", context)
+
+def trade_results(request, give, get):
+
+    context = {'give' : give, 'get' : get}
+    return render(request, "trade_app/trade_results.html", context)
