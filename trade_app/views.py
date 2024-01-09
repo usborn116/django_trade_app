@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.template.defaulttags import register
-from .helpers import league_setup
+from .helpers import league_setup, new_stat_card, stat_card_diff
 import pandas as pd
 
 from .models import League as AppLeague, Team, Player, StatCard
@@ -118,6 +118,20 @@ def player_trade_form(request, t1, t2):
         return render(request, "trade_app/player_trade_form.html", context)
 
 def trade_results(request, give, get):
+    get = get[1:-1].split(', ')
+    give = give[1:-1].split(', ')
+    comp_card = StatCard.objects.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
+                                    fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
+    
+    for id in get:
+        card = Player.objects.get(pk=int(id)).statcard_set.first()
+        new_stat_card(comp_card, card)
 
-    context = {'give' : give, 'get' : get}
+    for id in give:
+        card = Player.objects.get(pk=int(id)).statcard_set.first()
+        stat_card_diff(comp_card, card)
+
+    comp_card.get_calculated_stats()
+
+    context = {'give' : give, 'get' : get, 'card' : comp_card.__dict__, 'keys': KEYS}
     return render(request, "trade_app/trade_results.html", context)

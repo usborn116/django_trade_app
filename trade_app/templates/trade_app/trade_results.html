@@ -4,3 +4,9 @@
 
 
 {{get}}
+
+{% for key, value in card.items %}
+{% if keys|get_item:key %}
+<div>{{keys|get_item:key}}: {{value|round_stat}} </div>
+{% endif %}
+{% endfor %}
