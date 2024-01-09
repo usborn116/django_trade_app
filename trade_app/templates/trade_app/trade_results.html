@@ -1,10 +1,24 @@
-<h1>Hi!</h1>
+<h2>Player Trading</h2>
+{% for key, value in giving_cards.items %}
+<h3>{{key}}</h3>
+{% for key, value in value.items %}
+{% if keys|get_item:key %}
+<div>{{keys|get_item:key}}: {{value|round_stat}} </div>
+{% endif %}
+{% endfor %}
+{% endfor %}
 
-{{give}}
+<h2>Player Getting</h2>
+{% for key, value in getting_cards.items %}
+<h3>{{key}}</h3>
+{% for key, value in value.items %}
+{% if keys|get_item:key %}
+<div>{{keys|get_item:key}}: {{value|round_stat}} </div>
+{% endif %}
+{% endfor %}
+{% endfor %}
 
-
-{{get}}
-
+<h2>Net Change</h2>
 {% for key, value in card.items %}
 {% if keys|get_item:key %}
 <div>{{keys|get_item:key}}: {{value|round_stat}} </div>

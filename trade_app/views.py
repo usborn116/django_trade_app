@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.views import generic
 from django.template.defaulttags import register
-from .helpers import league_setup, new_stat_card, stat_card_diff
+from .helpers import league_setup, new_stat_card, new_empty_stat_card
 import pandas as pd
 
 from .models import League as AppLeague, Team, Player, StatCard
@@ -15,7 +15,10 @@ def get_item(dictionary, key):
 
 @register.filter
 def round_stat(num):
-    return round(num, 2)
+    if num:
+        return round(num, 2)
+    else:
+        return 0.00
 
 @register.filter
 def stat_dict(stats):
@@ -83,10 +86,8 @@ class PlayerView(generic.DetailView):
             context['stats'] = self.object.statcard_set.first().__dict__
         else:
             context['stats'] = None
-
         context['keys'] = KEYS
         return context
-
 
 def trade_form(request, pk):
     if request.method == 'POST':
@@ -120,18 +121,41 @@ def player_trade_form(request, t1, t2):
 def trade_results(request, give, get):
     get = get[1:-1].split(', ')
     give = give[1:-1].split(', ')
-    comp_card = StatCard.objects.create(pts=0, blk=0, stl=0, ast=0, oreb=0, dreb=0, to=0, 
-                                    fga=0, fgm=0, ftm=0, fta=0, m3p=0, a3p=0)
+    getting_card = new_empty_stat_card()
+    giving_card = new_empty_stat_card()
+    getting_cards = {}
+    giving_cards = {}
     
     for id in get:
         card = Player.objects.get(pk=int(id)).statcard_set.first()
-        new_stat_card(comp_card, card)
+        if card:
+            getting_cards[card.player.name] = card.__dict__
+        else:
+            card = new_empty_stat_card()
+            getting_cards[Player.objects.get(pk=int(id)).name] = card.__dict__
+        new_stat_card(getting_card, card)
+        card.delete()
+        getting_card.get_calculated_stats()
 
     for id in give:
         card = Player.objects.get(pk=int(id)).statcard_set.first()
-        stat_card_diff(comp_card, card)
+        if card:
+            giving_cards[card.player.name] = card.__dict__
+        else:
+            card = new_empty_stat_card()
+            giving_cards[Player.objects.get(pk=int(id)).name] = card.__dict__
+        new_stat_card(giving_card, card)
+        card.delete()
+        giving_card.get_calculated_stats()
 
-    comp_card.get_calculated_stats()
+    getting_card_dict = getting_card.__dict__
+    giving_card_dict = giving_card.__dict__
+    getting_card.delete()
+    giving_card.delete()
 
-    context = {'give' : give, 'get' : get, 'card' : comp_card.__dict__, 'keys': KEYS}
+    for key in KEYS:
+        getting_card_dict[key] -= giving_card_dict[key]
+
+    context = {'card' : getting_card_dict, 'keys': KEYS, 'getting_cards' : getting_cards, 
+               'giving_cards' : giving_cards}
     return render(request, "trade_app/trade_results.html", context)
