@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .models import League as AppLeague, Team, Player, StatCard
 from .test_data import fake_league, fake_team
-from .helpers import league_setup
+from .helpers import league_setup, new_empty_stat_card
 
 # Create your tests here.
 
@@ -91,6 +91,10 @@ class StatCardTestCase(TestCase):
 
         l.create_league_statcard()
 
+    def test_empty_card_generator(self):
+        empt = new_empty_stat_card()
+        self.assertEqual(empt.pts, 0.0)
+
     def test_player_statcard_exists(self):
         player_sc = StatCard.objects.get(player=Player.objects.get(pk=11))
         player_sc2 = StatCard.objects.get(player=Player.objects.get(pk=12))
@@ -108,7 +112,6 @@ class StatCardTestCase(TestCase):
     def test_api_player_statcard_exists(self):
         player_sc = StatCard.objects.get(player=Player.objects.get(name='Kevin Durant'))
         self.assertIsNotNone(player_sc)
-        #print('KD', player_sc.pts)
 
     def test_team_statcard_exists(self):
         team_sc = StatCard.objects.get(team=Team.objects.get(pk=100))
@@ -127,7 +130,6 @@ class StatCardTestCase(TestCase):
     def test_api_team_statcard_exists(self):
         team_sc = StatCard.objects.get(team=Team.objects.get(name='SGA Holes'))
         self.assertIsNotNone(team_sc)
-        #print('SGA Holes', team_sc.pts)
 
     def test_league_statcard_exists(self):
         league_sc = StatCard.objects.get(league=AppLeague.objects.get(pk=10))
@@ -143,7 +145,3 @@ class StatCardTestCase(TestCase):
     def test_api_league_statcard_exists(self):
         league_sc = StatCard.objects.get(league=AppLeague.objects.get(pk=lid))
         self.assertIsNotNone(league_sc)
-        print('Embiidlejuice', league_sc.pts)
-        print('Embiidlejuice', league_sc.blk)
-        print('Embiidlejuice', league_sc.stl)
-        print('Embiidlejuice', league_sc.ast)

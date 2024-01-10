@@ -22,8 +22,8 @@ def new_stat_card(new_stat, card):
         new_stat.a3p += card.a3p
         new_stat.save()
 
-def new_empty_stat_card():
-    card = StatCard.objects.create(pts=0.0, blk=0.0, stl=0.0, ast=0.0, oreb=0.0, dreb=0.0, to=0.0, 
+def new_empty_stat_card(owner = StatCard.objects):
+    card = owner.create(pts=0.0, blk=0.0, stl=0.0, ast=0.0, oreb=0.0, dreb=0.0, to=0.0, 
                                     fga=0.0, fgm=0.0, ftm=0.0, fta=0.0, m3p=0.0, a3p=0.0)
     card.save()
     return card
