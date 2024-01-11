@@ -92,7 +92,7 @@ class StatCardTestCase(TestCase):
         l.create_league_statcard()
 
     def test_empty_card_generator(self):
-        empt = new_empty_stat_card()
+        empt = new_empty_stat_card(StatCard.objects)
         self.assertEqual(empt.pts, 0.0)
 
     def test_player_statcard_exists(self):

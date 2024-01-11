@@ -22,3 +22,4 @@ Resources:
 - Get_context_data() method for class views: https://reintech.io/blog/working-with-class-based-views-in-django-tutorial
 - Template Tags: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/
 - Django Models Reference: https://docs.djangoproject.com/en/5.0/ref/models/instances/
+- Django update_or_create() method: https://docs.djangoproject.com/en/5.0/ref/models/querysets/#update-or-create

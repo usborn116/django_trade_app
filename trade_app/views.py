@@ -39,8 +39,8 @@ def index(request):
         lid = int(request.POST['lid'])
         year = int(request.POST['year'])
         data = league_setup(s2, sw, lid, year)
-        league, _ = AppLeague.objects.get_or_create(id=lid, year=year, s2=s2, sw=sw, 
-                                                          name='League(%s, %s)' % (data.league_id, data.year,))
+        league, _ = AppLeague.objects.update_or_create(id=lid, defaults={'year': year, 's2': s2, 'sw': sw, 
+                                                                             'name': 'League(%s, %s)' % (data.league_id, data.year,)})
         league.create_teams(data.teams)
         for team in data.teams:
             t = Team.objects.get(pk=team.team_id)
@@ -121,8 +121,8 @@ def player_trade_form(request, t1, t2):
 def trade_results(request, give, get):
     get = get[1:-1].split(', ')
     give = give[1:-1].split(', ')
-    getting_card = new_empty_stat_card()
-    giving_card = new_empty_stat_card()
+    getting_card = new_empty_stat_card(StatCard.objects)
+    giving_card = new_empty_stat_card(StatCard.objects)
     getting_cards = {}
     giving_cards = {}
     
@@ -131,7 +131,7 @@ def trade_results(request, give, get):
         if card:
             getting_cards[card.player.name] = card.__dict__
         else:
-            card = new_empty_stat_card()
+            card = new_empty_stat_card(StatCard.objects)
             getting_cards[Player.objects.get(pk=int(id)).name] = card.__dict__
         new_stat_card(getting_card, card)
         card.delete()
@@ -142,7 +142,7 @@ def trade_results(request, give, get):
         if card:
             giving_cards[card.player.name] = card.__dict__
         else:
-            card = new_empty_stat_card()
+            card = new_empty_stat_card(StatCard.objects)
             giving_cards[Player.objects.get(pk=int(id)).name] = card.__dict__
         new_stat_card(giving_card, card)
         card.delete()
