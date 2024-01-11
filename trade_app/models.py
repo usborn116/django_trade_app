@@ -26,7 +26,7 @@ class League(models.Model):
 
     def create_teams(self, teams):
         for team in teams:
-            self.team_set.update_or_create(id = team.team_id, defaults={'name' : team.team_name})
+            Team.objects.update_or_create(id = team.team_id, defaults={'name' : team.team_name, 'league' : self})
 
 
 class Team(models.Model):
@@ -36,8 +36,8 @@ class Team(models.Model):
 
     def create_players(self, players):
         for player in players:
-            new_player, _ = self.player_set.update_or_create(id = player.playerId, defaults={'name' : player.name, 'league' : self.league,
-                                   'position':player.position})
+            new_player, _ = Player.objects.update_or_create(id = player.playerId, defaults={'name' : player.name, 'league' : self.league,
+                                   'position':player.position, 'team' : self})
             try:
                 new_player.create_player_statcard(player.stats['2024_total']['avg'])
             except KeyError:
