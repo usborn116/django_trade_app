@@ -1,4 +1,23 @@
-<form action="{% url 'trade_app:index' %}" method="post">
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'trade_app/css/style.css' %}">
+
+<script>
+    const loading = () => {
+        var x = document.getElementById("loader");
+        var t = document.getElementById("loadertext");
+        var y = document.getElementById("content");
+        x.style.display = "block";
+        y.style.display = "none";
+        t.style.display = 'block';
+    
+    }
+</script>
+
+<div id="loadertext">...Gathering League Data (this will take a moment)...</div>
+<img id="loader" src="{% static 'trade_app/images/spinball.gif' %}" />
+
+<form id='content' action="{% url 'trade_app:index' %}" method="post">
     {% csrf_token %}
 
     <fieldset>
@@ -12,5 +31,5 @@
         <label for="year">Season Year</label><br>
     </fieldset>
 
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" onclick="loading()">
 </form>
