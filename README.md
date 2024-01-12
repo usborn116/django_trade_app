@@ -23,3 +23,4 @@ Resources:
 - Template Tags: https://docs.djangoproject.com/en/5.0/ref/templates/builtins/
 - Django Models Reference: https://docs.djangoproject.com/en/5.0/ref/models/instances/
 - Django update_or_create() method: https://docs.djangoproject.com/en/5.0/ref/models/querysets/#update-or-create
+- Django static files: https://docs.djangoproject.com/en/5.0/howto/static-files/
