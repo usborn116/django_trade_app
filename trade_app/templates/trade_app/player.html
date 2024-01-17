@@ -1,3 +1,8 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
+
 <h1>{{ player.name }}</h1>
 
-{% include './stats.html' with stats=stats keys=keys model=player.name %}
+{% include './stat_header.html' with stats=stats keys=keys %}
+{% include './entry.html' with player=player.id id=player.id name=player.name stats=player.statcard_set.first|stat_dict keys=keys %}

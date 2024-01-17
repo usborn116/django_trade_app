@@ -16,7 +16,7 @@ def get_item(dictionary, key):
 @register.filter
 def round_stat(num):
     if num:
-        return round(num, 2)
+        return str(round(num, 2))[:6]
     else:
         return 0.00
 

@@ -1,8 +1,19 @@
-<h1>Teams</h1>
-{% for team in league.team_set.all %}
-<h2><a href="{% url 'trade_app:roster' team.id %}">{{team.name}}</a></h2>
-{% endfor %}
+{% load static %}
 
+<link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
+
+<h1>Teams</h1>
+
+<div class="table">
+    
+    {% include './stat_header.html' with stats=stats keys=keys %}
+    {% for team in league.team_set.all %}
+        {% include './entry.html' with id=team.id name=team.name stats=team.statcard_set.first|stat_dict keys=keys %}
+    {% endfor %}
+    {% include './entry.html' with nolink='true' id=league.id name='League Average' stats=league.statcard_set.first|stat_dict keys=keys %}
+    
+</div>
+<br>
+<br>
 <a href="{% url 'trade_app:trade_form' league.id %}">TRADE</a>
 
-{% include './stats.html' with stats=stats keys=keys model='League' %}

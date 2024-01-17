@@ -1,10 +1,18 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
+
 <h1>{{ team.name }} Roster</h1>
 
-{% for player in team.player_set.all %}
-<h2><a href="{% url 'trade_app:player' player.id %}">{{player.name}}</a></h2>
-{% include './stats.html' with stats=player.statcard_set.first|stat_dict keys=keys model='' %}
-{% endfor %}
+<div>__________</div>
 
-{% if not no_team %}
-{% include './stats.html' with stats=stats keys=keys model=team.name %}
-{% endif %}
+<div class="table">
+    
+    {% include './stat_header.html' with stats=stats keys=keys %}
+    {% for player in team.player_set.all %}
+        {% include './entry.html' with id=player.id name=player.name stats=player.statcard_set.first|stat_dict keys=keys %}
+    {% endfor %}
+    
+</div>
+
+{% include './entry.html' with nolink='true' id=team.id name='TOTAL' stats=stats keys=keys %}

@@ -1,0 +1,23 @@
+#loadertext, #loader {
+    display: none;
+}
+
+
+.row{
+    display: grid;
+    grid-template-columns: 2fr repeat(11, 1fr);
+}
+
+.stats{
+    display: flex;
+    flex-direction: column;
+}
+
+.stat{
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+}
+
+.header{
+    font-size: 18px;
+}
