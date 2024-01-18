@@ -68,7 +68,7 @@ class Player(models.Model):
     name = models.CharField(max_length=50)
     id = models.IntegerField(primary_key=True)
     position = models.CharField(max_length=10)
-
+    ordering = ['statcard__pts']
     def create_player_statcard(self, stats):
         new_stat = None
         temp_card = StatCard.objects.create(pts=stats['PTS'], blk=stats['BLK'], stl=stats['STL'], 
@@ -106,6 +106,8 @@ class StatCard(models.Model):
     afg = models.FloatField("AFG%", blank=True, null=True)
     ato = models.FloatField("A/TO", blank=True, null=True,)
     ft_per = models.FloatField("FT%", blank=True, null=True,)
+
+    ordering = ['pts']
 
     def get_calculated_stats(self):
         self.afg = (self.m3p*0.5+self.fgm) / (self.fga + 0.0000000001)

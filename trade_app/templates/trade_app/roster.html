@@ -1,6 +1,9 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
+  </style>
 
 <h1>{{ team.name }} Roster</h1>
 
@@ -9,10 +12,9 @@
 <div class="table">
     
     {% include './stat_header.html' with stats=stats keys=keys %}
-    {% for player in team.player_set.all %}
+    {% for player in players %}
         {% include './entry.html' with id=player.id name=player.name stats=player.statcard_set.first|stat_dict keys=keys %}
     {% endfor %}
-    
+    {% include './entry.html' with nolink='true' id=team.id name='TOTAL' stats=stats keys=keys %}    
 </div>
 
-{% include './entry.html' with nolink='true' id=team.id name='TOTAL' stats=stats keys=keys %}

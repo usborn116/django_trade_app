@@ -1,3 +1,10 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
+  </style>
+  
 <h2>Player Trading</h2>
 {% for key, value in giving_cards.items %}
 <h3>{{key}}</h3>

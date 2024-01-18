@@ -19,9 +19,9 @@
     <input type="submit" value="Submit">
 </form>
 
-{% include './roster.html' with team=team1 keys=keys %}
+{% include './roster.html' with team=team1 stats=stats1 players=players1 keys=keys %}
 
-{% include './roster.html' with team=team2 keys=keys no_team=True%}
+{% include './roster.html' with team=team2 stats=stats2 players=players2 keys=keys no_team=True%}
 
 <!--
     <textarea name="trade_away" id="trade_away" cols="50" rows= "5" placeholder="Player Trading"></textarea><br>

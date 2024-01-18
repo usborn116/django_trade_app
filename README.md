@@ -24,3 +24,4 @@ Resources:
 - Django Models Reference: https://docs.djangoproject.com/en/5.0/ref/models/instances/
 - Django update_or_create() method: https://docs.djangoproject.com/en/5.0/ref/models/querysets/#update-or-create
 - Django static files: https://docs.djangoproject.com/en/5.0/howto/static-files/
+- Order_by in queries: https://docs.djangoproject.com/en/5.0/ref/models/expressions/#using-f-to-sort-null-values

@@ -1,4 +1,5 @@
 from typing import Any
+from django.db.models import Max, F
 from django.db.models.query import QuerySet
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -73,6 +74,7 @@ class RosterView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['stats'] = self.object.statcard_set.first().__dict__
         context['keys'] = KEYS
+        context['players'] = self.object.player_set.all().annotate(high_pts=Max('statcard__pts')).order_by(F('high_pts').desc(nulls_last=True))
         return context
     
 class PlayerView(generic.DetailView):
@@ -115,7 +117,11 @@ def player_trade_form(request, t1, t2):
     else:
         team1 = get_object_or_404(Team, pk=t1)
         team2 = get_object_or_404(Team, pk=t2)
-        context = { 'team1' : team1, 'team2' : team2, 'keys': KEYS}
+        stats1 = team1.statcard_set.first().__dict__
+        stats2 = team1.statcard_set.first().__dict__
+        players1 = team1.player_set.all().annotate(high_pts=Max('statcard__pts')).order_by(F('high_pts').desc(nulls_last=True))
+        players2 = team2.player_set.all().annotate(high_pts=Max('statcard__pts')).order_by(F('high_pts').desc(nulls_last=True))
+        context = { 'team1' : team1, 'team2' : team2, 'keys': KEYS, 'stats1' : stats1, 'stats2': stats2, 'players1': players1, 'players2' : players2}
         return render(request, "trade_app/player_trade_form.html", context)
 
 def trade_results(request, give, get):
