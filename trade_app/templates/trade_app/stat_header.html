@@ -1,8 +1,12 @@
 <div class="row">
     <div class="header">
+        {% if no_player %}
+        <div>{{no_player}}</div>
+        {% else %}
         <div>Player</div>
+        {% endif %}
     </div>
-    {% for key, value in stats.items %}
+    {% for key, value in keys.items %}
     {% if keys|get_item:key %}
     <div class="header">
         {{keys|get_item:key}}

@@ -1,28 +1,37 @@
-<form action="{% url 'trade_app:player_trade_form' team1.id team2.id%}" method="post">
+<form class='form' id="player-form" action="{% url 'trade_app:player_trade_form' team1.id team2.id%}" method="post">
     {% csrf_token %}
 
-    <fieldset>
-        <div>Players You're Trading</div><br>
-        {% for player in team1.player_set.all %}
-        <input type="checkbox" value={{player.id}} name="trading{{player.id}}" id={{player.id}}>
-        <label for={{player.id}}>{{player.name}}</label><br>
-        {% endfor %}
-        <br>
-        <div>Players You're Getting</div><br>
-        {% for player in team2.player_set.all %}
-        <input type="checkbox" value={{player.id}} name="getting{{player.id}}" id={{player.id}}>
-        <label for={{player.id}}>{{player.name}}</label><br>
-        {% endfor %}
-        
-    </fieldset>
+    <div class="player-form">
+        <div class="player-section">
+        <h2>Players You're Trading</h2>
+        <div class="player-listing">
+            {% for player in players1 %}
+            <div class="player-row">
+            <input type="checkbox" value={{player.id}} name="trading{{player.id}}" id={{player.id}}>
+            <label for={{player.id}}>{{player.name}}</label>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
 
-    <input type="submit" value="Submit">
+        <div class="player-section">
+        <h2>Players You're Getting</h2>
+        <div class="player-listing">
+            {% for player in players2 %}
+            <div class="player-row">
+            <input type="checkbox" value={{player.id}} name="getting{{player.id}}" id={{player.id}}>
+            <label for={{player.id}}>{{player.name}}</label>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+    </div>
+
+    <input type="submit" class='player-submit' value="Analyze Trade">
 </form>
 
 {% include './roster.html' with team=team1 stats=stats1 players=players1 keys=keys %}
 
 {% include './roster.html' with team=team2 stats=stats2 players=players2 keys=keys no_team=True%}
 
-<!--
-    <textarea name="trade_away" id="trade_away" cols="50" rows= "5" placeholder="Player Trading"></textarea><br>
--->
+{% include './signature.html' %}

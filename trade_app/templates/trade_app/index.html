@@ -15,22 +15,40 @@
     }
 </script>
 
-<div id="loadertext">...Gathering League Data (this will take a moment)...</div>
+<div class="loading">
+<h3 id="loadertext">...Gathering League Data (this will take a moment)...</h3>
 <img id="loader" src="{% static 'trade_app/images/spinball.gif' %}" />
+</div>
 
-<form id='content' action="{% url 'trade_app:index' %}" method="post">
+<div id="content">
+
+<h2>Enter League Information</h2>
+<div class="alert">
+    For help on finding your league's SW ID and S2 ID, check out 
+    <a href="https://github.com/cwendt94/espn-api/discussions/150" target="_blank">this discussion</a>!
+</div>
+
+<form class='form' action="{% url 'trade_app:index' %}" method="post">
     {% csrf_token %}
 
     <fieldset>
+    <div class="field">
         <input type="text" name="sw" id="sw" placeholder="SW ID">
-        <label for="sw">SWID</label><br>
+    </div>
+    <div class="field">
         <input type="text" name="s2" id="s2" placeholder="S2 ID">
-        <label for="s2">S2 ID</label><br>
+    </div>
+    <div class="field">
         <input type="text" name="lid" id="lid" placeholder="League ID">
-        <label for="lid">League ID</label><br>
+    </div>
+    <div class="field">
         <input type="text" name="year" id="year" placeholder="Season">
-        <label for="year">Season Year</label><br>
+    </div>
     </fieldset>
 
     <input type="submit" value="Submit" onclick="loading()">
 </form>
+
+</div>
+
+{% include './signature.html' %}

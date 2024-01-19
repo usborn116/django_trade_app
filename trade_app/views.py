@@ -140,7 +140,6 @@ def trade_results(request, give, get):
             card = new_empty_stat_card(StatCard.objects)
             getting_cards[Player.objects.get(pk=int(id)).name] = card.__dict__
         new_stat_card(getting_card, card)
-        card.delete()
         getting_card.get_calculated_stats()
 
     for id in give:
@@ -151,7 +150,6 @@ def trade_results(request, give, get):
             card = new_empty_stat_card(StatCard.objects)
             giving_cards[Player.objects.get(pk=int(id)).name] = card.__dict__
         new_stat_card(giving_card, card)
-        card.delete()
         giving_card.get_calculated_stats()
 
     getting_card_dict = getting_card.__dict__
@@ -162,6 +160,6 @@ def trade_results(request, give, get):
     for key in KEYS:
         getting_card_dict[key] -= giving_card_dict[key]
 
-    context = {'card' : getting_card_dict, 'keys': KEYS, 'getting_cards' : getting_cards, 
+    context = {'league_id': Player.objects.get(pk=get[0]).league.id, 'card' : getting_card_dict, 'keys': KEYS, 'getting_cards' : getting_cards, 
                'giving_cards' : giving_cards}
     return render(request, "trade_app/trade_results.html", context)

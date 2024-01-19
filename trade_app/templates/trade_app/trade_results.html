@@ -4,30 +4,37 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
   </style>
-  
+
+<a class='button' href="{% url 'trade_app:league' league_id %}">Back to Teams</a>
+
+<div class="results">
+
+<div class="results-block">
 <h2>Player Trading</h2>
+
+{% include './stat_header.html' with keys=keys %}
+
 {% for key, value in giving_cards.items %}
-<h3>{{key}}</h3>
-{% for key, value in value.items %}
-{% if keys|get_item:key %}
-<div>{{keys|get_item:key}}: {{value|round_stat}} </div>
-{% endif %}
+    {% include './entry.html' with nolink='true' name=key stats=value keys=keys %}
 {% endfor %}
-{% endfor %}
+</div>
 
+<div class="results-block">
 <h2>Player Getting</h2>
-{% for key, value in getting_cards.items %}
-<h3>{{key}}</h3>
-{% for key, value in value.items %}
-{% if keys|get_item:key %}
-<div>{{keys|get_item:key}}: {{value|round_stat}} </div>
-{% endif %}
-{% endfor %}
-{% endfor %}
 
-<h2>Net Change</h2>
-{% for key, value in card.items %}
-{% if keys|get_item:key %}
-<div>{{keys|get_item:key}}: {{value|round_stat}} </div>
-{% endif %}
+{% include './stat_header.html' with keys=keys %}
+
+{% for key, value in getting_cards.items %}
+    {% include './entry.html' with nolink='true' name=key stats=value keys=keys %}
 {% endfor %}
+</div>
+
+<div class="results-block">
+<h2>Net Change</h2>
+
+{% include './stat_header.html' with no_player='Analysis' keys=keys %}
+{% include './entry.html' with nolink='true' stats=card keys=keys %}
+
+</div>
+
+{% include './signature.html' %}

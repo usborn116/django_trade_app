@@ -5,9 +5,9 @@
     @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
   </style>
 
-<h2>This is the trade form</h2>
+<h2>Start Your Trade!</h2>
 
-<form action="{% url 'trade_app:trade_form' id %}" method="post">
+<form class='form' action="{% url 'trade_app:trade_form' id %}" method="post">
     {% csrf_token %}
 
     <fieldset>
@@ -27,3 +27,5 @@
 
     <input type="submit" value="Submit">
 </form>
+
+{% include './signature.html' %}
