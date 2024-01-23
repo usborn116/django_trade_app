@@ -1,9 +1,11 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
   </style>
+
+<div class="section">
 
 <a class='button' href="{% url 'trade_app:league' league_id %}">Back to Teams</a>
 
@@ -12,28 +14,36 @@
 <div class="results-block">
 <h2>Player Trading</h2>
 
+<div class="table">
 {% include './stat_header.html' with keys=keys %}
 
 {% for key, value in giving_cards.items %}
     {% include './entry.html' with nolink='true' name=key stats=value keys=keys %}
 {% endfor %}
 </div>
+</div>
 
 <div class="results-block">
 <h2>Player Getting</h2>
 
+<div class="table">
 {% include './stat_header.html' with keys=keys %}
 
 {% for key, value in getting_cards.items %}
     {% include './entry.html' with nolink='true' name=key stats=value keys=keys %}
 {% endfor %}
 </div>
+</div>
 
 <div class="results-block">
 <h2>Net Change</h2>
 
+<div class="table">
 {% include './stat_header.html' with no_player='Analysis' keys=keys %}
 {% include './entry.html' with nolink='true' stats=card keys=keys %}
+
+</div>
+</div>
 
 </div>
 

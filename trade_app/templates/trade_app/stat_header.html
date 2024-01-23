@@ -1,9 +1,9 @@
-<div class="row">
+<div class="row header-row">
     <div class="header">
         {% if no_player %}
-        <div>{{no_player}}</div>
+        {{no_player}}
         {% else %}
-        <div>Player</div>
+        Player
         {% endif %}
     </div>
     {% for key, value in keys.items %}

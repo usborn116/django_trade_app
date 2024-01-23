@@ -1,5 +1,5 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
@@ -7,14 +7,12 @@
 
 <h1>{{ team.name }} Roster</h1>
 
-<div>__________</div>
-
 <div class="table">
-    
-    {% include './stat_header.html' with stats=stats keys=keys %}
+
+    {% include './stat_header.html' with stats=stats keys=keys pos='true' %}
     {% for player in players %}
-        {% include './entry.html' with id=player.id name=player.name stats=player.statcard_set.first|stat_dict keys=keys %}
+        {% include './entry.html' with id=player.id name=player.name pos=player.position stats=player.statcard_set.first|stat_dict keys=keys %}
     {% endfor %}
     {% include './entry.html' with nolink='true' id=team.id name='TOTAL' stats=stats keys=keys %}    
-</div>
 
+</div>

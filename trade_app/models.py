@@ -41,7 +41,7 @@ class Team(models.Model):
             try:
                 new_player.create_player_statcard(player.stats['2024_total']['avg'])
             except KeyError:
-                None
+                new_empty_stat_card(new_player.statcard_set)
             
     def create_team_statcard(self):
         new_stat = None

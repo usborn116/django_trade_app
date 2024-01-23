@@ -1,11 +1,11 @@
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% load static %}
-
 <link rel="stylesheet" href="{% static 'trade_app/style.css' %}">
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Roboto&display=swap');
   </style>
 
+<div class="section">
 <h1>Teams</h1>
 <a class='button trade-button' href="{% url 'trade_app:trade_form' league.id %}">Start a Trade!</a>
 
@@ -17,6 +17,7 @@
     {% endfor %}
     {% include './entry.html' with nolink='true' id=league.id name='League Average' stats=league.statcard_set.first|stat_dict keys=keys %}
     
+</div>
 </div>
 
 {% include './signature.html' %}

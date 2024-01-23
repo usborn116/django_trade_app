@@ -3,7 +3,7 @@
         {% if nolink %}
         {{name}}
         {% elif player %}
-        <a href="{% url 'trade_app:player' id %}">{{name}}</a>
+        <a href="{% url 'trade_app:player' id %}">{{name}} | {{pos}}</a>
         {% elif team %}
         <a href="{% url 'trade_app:roster' id %}">{{name}}</a>
         {% endif %}
