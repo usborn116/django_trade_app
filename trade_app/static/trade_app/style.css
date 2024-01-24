@@ -51,6 +51,12 @@ body{
     filter: drop-shadow(0 0 1em #A0E8AF);
 }
 
+.button-section{
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
 .table{
     display: flex;
     flex-direction: column;
@@ -60,8 +66,12 @@ body{
     border-right: 1px solid  black;
 }
 
-.trade-button{
+.trade-button, .exit-button{
     margin-bottom: 1.5em;
+}
+
+.button-section .exit-button{
+    background-color: #785964
 }
 
 
@@ -91,19 +101,19 @@ body{
 
 a{
     text-decoration: none;
-    color: teal;
+    color: #FE654F;
     border-radius: 2px;
 }
 
 a:hover{
     text-decoration: none;
-    color: cornflowerblue
+    color: #785964
 }
 
 input[type='submit']:hover, .button:hover{
     text-decoration: none;
-    color: forestgreen;
-    background-color: bisque;
+    color: #E4FDE1;
+    background-color: #EEBA0B;
 }
 
 .stats{
@@ -119,10 +129,16 @@ input[type='submit']:hover, .button:hover{
 .header{
     font-size: 18px;
     font-weight: bolder;
+    color: #294D4A;
+}
+
+h1, h2{
+    color: #294D4A;
+    font-weight: bolder;
 }
 
 input[type='submit'], .button{
-    background-color: teal;
+    background-color: #1A535C;
     color: white;
     padding: 1em;
     border-radius: 10px;
@@ -132,6 +148,7 @@ input[type='submit'], .button{
 
 .form .player-submit{
     width: 75%;
+    font-size: 1.2em;
 }
 
 .form{
@@ -211,7 +228,7 @@ input[type='submit'], .button{
 @media (max-width: 900px){
 
     body{
-        min-height: 100vh;
+        height: 100%;
         padding: 1em;
     }
     .row{
