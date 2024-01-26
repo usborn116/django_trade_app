@@ -1,4 +1,4 @@
-Playing with Django to see if I can get a trade app going!
+Now Live at https://fantasy-trade-machine.fly.dev/trade_app/!
 
 Resources:
 - Django Tutorials: https://docs.djangoproject.com/en/5.0/intro/tutorial04/
@@ -25,3 +25,16 @@ Resources:
 - Django update_or_create() method: https://docs.djangoproject.com/en/5.0/ref/models/querysets/#update-or-create
 - Django static files: https://docs.djangoproject.com/en/5.0/howto/static-files/
 - Order_by in queries: https://docs.djangoproject.com/en/5.0/ref/models/expressions/#using-f-to-sort-null-values
+
+Tools for Deployment:
+- Django environ: https://django-environ.readthedocs.io/en/latest/quickstart.html
+- Fly.io deploy for existing apps: https://fly.io/docs/django/getting-started/existing/
+- Docs for dj-database-url: https://pypi.org/project/dj-database-url/
+- Deploying static files: https://docs.djangoproject.com/en/5.0/howto/static-files/deployment/
+- Docs on Whitenoise: https://whitenoise.readthedocs.io/en/stable/django.html#check-its-working
+- Django Deploy checklist: https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+- Django Settings doc: https://docs.djangoproject.com/en/5.0/ref/settings/#std-setting-STATIC_ROOT
+- Psycopg docs: https://www.psycopg.org/psycopg3/docs/basic/usage.html#module-usage
+- Django and Databases: https://docs.djangoproject.com/en/5.0/ref/databases/#postgresql-notes
+- Fly.io forum on staticfiles: https://community.fly.io/t/how-to-serve-static-files-from-django/5485
+- Django CSRF considerations: https://docs.djangoproject.com/en/1.11/ref/csrf/#rejected-requests

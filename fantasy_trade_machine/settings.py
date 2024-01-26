@@ -11,21 +11,38 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+import dj_database_url
 
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+#BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-r1nn12+jxzps3uvas334z9*m+s3@@+y=nm-8yzqsx#pgxm=e!a'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
+#for PROD
+APP_NAME = env("FLY_APP_NAME")
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ['https://fantasy-trade-machine.fly.dev/trade_app/', 'https://fantasy-trade-machine.fly.dev', 'https://*.fly.dev']
+
+#for DEV
+#ALLOWED_HOSTS = ['127.0.0.1','localhost',"fantasy_trade_machine.fly.dev"]
 
 
 # Application definition
@@ -42,12 +59,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'fantasy_trade_machine.urls'
@@ -72,11 +91,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fantasy_trade_machine.wsgi.application'
 
+#for PROD
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+
+    "default" :  dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    
+}
+
+
+'''
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "django_trade_app",
@@ -85,7 +119,14 @@ DATABASES = {
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
-}
+
+    "default" :  dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+
+    postgres://usbornocampo:OCAMPO777@127.0.0.1/django_trade_app
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -122,6 +163,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+#for PROD
+STATIC_ROOT = BASE_DIR + '/' + "staticfiles"
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
