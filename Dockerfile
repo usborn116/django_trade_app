@@ -22,6 +22,9 @@ RUN set -ex && \
     rm -rf /root/.cache/
 COPY . /code
 
+ENV SECRET_KEY "3km0bH7ee7MB5cgjDDb7qji9FBGTpq5VEGLXvFR2rPXK45Ga1w"
+RUN python manage.py collectstatic --noinput
+
 EXPOSE 8000
 
 CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "fantasy_trade_machine.wsgi"]

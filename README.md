@@ -1,4 +1,4 @@
-Now Live at https://fantasy-trade-machine.fly.dev/trade_app/!
+Now Live at https://fantasy-trade-machine.fly.dev/trade_app!
 
 Resources:
 - Django Tutorials: https://docs.djangoproject.com/en/5.0/intro/tutorial04/
@@ -38,3 +38,5 @@ Tools for Deployment:
 - Django and Databases: https://docs.djangoproject.com/en/5.0/ref/databases/#postgresql-notes
 - Fly.io forum on staticfiles: https://community.fly.io/t/how-to-serve-static-files-from-django/5485
 - Django CSRF considerations: https://docs.djangoproject.com/en/1.11/ref/csrf/#rejected-requests
+
+

@@ -36,13 +36,30 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-#for PROD
-APP_NAME = env("FLY_APP_NAME")
+# --------------------- FOR PRODUCTION ---------------------#
+
+APP_NAME = 'fantasy-trade-machine'
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = ['https://fantasy-trade-machine.fly.dev/trade_app/', 'https://fantasy-trade-machine.fly.dev', 'https://*.fly.dev']
 
-#for DEV
-#ALLOWED_HOSTS = ['127.0.0.1','localhost',"fantasy_trade_machine.fly.dev"]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+
+STATIC_ROOT = BASE_DIR + '/' + "staticfiles"
+STORAGES = {
+    # ...
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
+    },
+}
+
+
+'''
+# --------------------- FOR DEVELOPMENT ---------------------#
+ALLOWED_HOSTS = ['127.0.0.1','localhost',"fantasy_trade_machine.fly.dev"]
+'''
 
 
 # Application definition
@@ -66,7 +83,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'fantasy_trade_machine.urls'
@@ -91,12 +107,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'fantasy_trade_machine.wsgi.application'
 
-#for PROD
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True
-
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -109,7 +119,6 @@ DATABASES = {
     
 }
 
-
 '''
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -119,11 +128,6 @@ DATABASES = {
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
-
-    "default" :  dj_database_url.config(
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
 
     postgres://usbornocampo:OCAMPO777@127.0.0.1/django_trade_app
 '''
@@ -146,7 +150,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -158,19 +161,10 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-#for PROD
-STATIC_ROOT = BASE_DIR + '/' + "staticfiles"
-STORAGES = {
-    # ...
-    "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
-    },
-}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
